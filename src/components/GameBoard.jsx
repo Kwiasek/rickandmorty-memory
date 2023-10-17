@@ -29,7 +29,7 @@ const GameBoard = ({ handleSetScore }) => {
       .then((data) => setCharacters(data));
   }, []);
   return (
-    <div className="grid grid-cols-5 gap-3 p-3">
+    <div className="grid grid-cols-5 gap-3 px-5 py-5">
       {characters &&
         characters.map((character) => {
           return (

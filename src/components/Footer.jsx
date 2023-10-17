@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <div className="flex justify-center p-3">
+    <div className="flex justify-center p-5">
       <a
         href="https://adamkwiasowski.pl"
         target="_blank"
