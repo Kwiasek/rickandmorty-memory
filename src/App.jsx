@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import GameBoard from "./components/GameBoard";
 import Nav from "./components/Nav";
@@ -9,6 +9,18 @@ function App() {
   const [score, setScore] = useState(0);
   const [maxScore, setMaxScore] = useState(0);
   const [difficulty, setDifficulty] = useState("");
+
+  useEffect(() => {
+    !localStorage.getItem("max_score")
+      ? localStorage.setItem("max_score", 0)
+      : setMaxScore(localStorage.getItem("max_score"));
+  }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem != 0) {
+      localStorage.setItem("max_score", maxScore);
+    }
+  }, [maxScore]);
 
   const handleGameOver = () => {
     setDifficulty("");
@@ -23,7 +35,9 @@ function App() {
     setDifficulty(difficulty);
   };
 
-  if (score > maxScore) setMaxScore(score);
+  if (score > maxScore) {
+    setMaxScore(score);
+  }
   if (
     (score == 8 && difficulty == "Easy") ||
     (score == 10 && difficulty == "Medium") ||
