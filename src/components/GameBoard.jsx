@@ -24,21 +24,34 @@ const GameBoard = ({ handleSetScore, difficulty, handleGameOver }) => {
     }
   };
 
+  const getRandomNumbers = (maxValue) => {
+    let numbers = [];
+    let i = 0;
+    let text = "";
+    while (i < maxValue) {
+      let x = Math.floor(Math.random() * 825 + 1);
+      if (!numbers.includes(x)) {
+        numbers.push(x);
+        i++;
+      }
+    }
+    numbers.forEach((number) => {
+      text += number + ",";
+    });
+    return `https://rickandmortyapi.com/api/character/${text}`;
+  };
+
   useEffect(() => {
     let url;
     switch (difficulty) {
       case "Easy":
-        url = "https://rickandmortyapi.com/api/character/1,2,3,4,5,7,8,9";
+        url = getRandomNumbers(8);
         break;
       case "Medium":
-        url = "https://rickandmortyapi.com/api/character/1,2,3,4,5,7,8,9,10,11";
+        url = getRandomNumbers(10);
         break;
       case "Hard":
-        url =
-          "https://rickandmortyapi.com/api/character/1,2,3,4,5,7,8,9,10,11,12,13";
-        break;
-      default:
-        url = "https://rickandmortyapi.com/api/character/1,2,3,4,5,7,8,9,10,11";
+        url = getRandomNumbers(12);
         break;
     }
     fetch(url)
