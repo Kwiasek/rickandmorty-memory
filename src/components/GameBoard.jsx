@@ -6,6 +6,8 @@ const GameBoard = ({ handleSetScore, difficulty, handleGameOver }) => {
   const [characters, setCharacters] = useState(null);
   const charactersList = [];
   const [userPick, setUserPick] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   if (characters) {
     characters.forEach((character) => {
@@ -55,9 +57,27 @@ const GameBoard = ({ handleSetScore, difficulty, handleGameOver }) => {
         break;
     }
     fetch(url)
-      .then((res) => res.json())
-      .then((data) => setCharacters(data));
+      .then((res) => {
+        if (res.status >= 400) {
+          throw new Error("server error");
+        }
+        return res.json();
+      })
+      .then((data) => setCharacters(data))
+      .catch((error) => {
+        setError(error);
+      })
+      .finally(() => setLoading(false));
   }, []);
+
+  if (error) return <p>A network error has occured</p>;
+  if (loading)
+    return (
+      <div className="flex justify-center items-center">
+        <p className="text-3xl text-white font-bold">Loading...</p>
+      </div>
+    );
+
   return (
     <div
       className={`grid gap-3 px-5 py-5 ${
